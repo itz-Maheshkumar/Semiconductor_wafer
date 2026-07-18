@@ -1,0 +1,66 @@
+# --- Python ---
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+*.egg-info/
+.installed.cfg
+*.egg
+
+# --- Virtual environments ---
+.venv/
+venv/
+env/
+ENV/
+
+# --- Environment variables / secrets ---
+.env
+.env.local
+*.pem
+
+# --- IDE / editor ---
+.vscode/
+.idea/
+*.swp
+*.swo
+.DS_Store
+
+# --- FastAPI / app runtime ---
+app/media/*
+!app/media/.gitkeep
+
+# --- Logs ---
+*.log
+logs/
+
+# --- Testing / coverage ---
+.pytest_cache/
+.coverage
+htmlcov/
+
+# --- Jupyter (if any exploration notebooks live in backend/) ---
+.ipynb_checkpoints/
+
+# =========================================================
+# NOTE: app.db is intentionally NOT ignored.
+# It is committed to source control on purpose so the whole
+# team shares the same schema + seed data. Do not add it here.
+# =========================================================
+
+# --- ML model files ---
+# NOTE: model .h5/.pt files under models/ are intentionally NOT
+# ignored either (small enough for this project). If a model file
+# grows too large for git, use Git LFS instead of ignoring it —
+# otherwise a fresh clone can't run the backend.

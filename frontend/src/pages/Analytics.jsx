@@ -1,3 +1,4 @@
+import { useEffect, useState } from "react";
 import KpiCard from "../components/dashboard/KpiCard";
 import DetectionTrend from "../components/dashboard/DetectionTrend";
 import DefectPieChart from "../components/dashboard/DefectPieChart";
@@ -5,11 +6,21 @@ import DefectPieChart from "../components/dashboard/DefectPieChart";
 import { getAnalytics } from "../services/analyticsService";
 
 function Analytics() {
-  const {
-    dashboardStats,
-    detectionTrend,
-    defectDistribution,
-  } = getAnalytics();
+  const [dashboardStats, setDashboardStats] = useState([]);
+  const [detectionTrend, setDetectionTrend] = useState([]);
+  const [defectDistribution, setDefectDistribution] = useState([]);
+
+  useEffect(() => {
+    const loadAnalytics = async () => {
+      const data = await getAnalytics();
+      setDashboardStats(data.dashboardStats);
+      setDetectionTrend(data.detectionTrend);
+      setDefectDistribution(data.defectDistribution);
+    };
+
+    loadAnalytics();
+  }, []);
+
   return (
     <div className="space-y-8">
       <div>

@@ -1,7 +1,19 @@
-import { getHistory } from "../services/historyService";
+import { useEffect, useState } from "react";
+import { getHistory } from "../services/historyservice";
 
 function History() {
-  const historyData = getHistory();return (
+  const [historyData, setHistoryData] = useState([]);
+
+  useEffect(() => {
+    const loadHistory = async () => {
+      const data = await getHistory();
+      setHistoryData(data);
+    };
+
+    loadHistory();
+  }, []);
+
+  return (
     <div className="space-y-8">
       <div>
         <h1 className="text-3xl font-bold">Inspection History</h1>
@@ -35,10 +47,8 @@ function History() {
                 <td>
                   <span
                     className={`px-3 py-1 rounded-full text-sm ${
-                      item.status === "Passed"
+                      item.status === "Reviewed"
                         ? "bg-green-600"
-                        : item.status === "Rejected"
-                        ? "bg-red-600"
                         : "bg-yellow-600"
                     }`}
                   >

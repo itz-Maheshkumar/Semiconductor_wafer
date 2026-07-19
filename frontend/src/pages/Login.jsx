@@ -1,18 +1,32 @@
 import { useNavigate } from "react-router-dom";
 import { useState } from "react";
+import api from "../services/api";
 
 function Login() {
   const navigate = useNavigate();
 
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [error, setError] = useState("");
+  const [loading, setLoading] = useState(false);
 
-  const handleLogin = (e) => {
+  const handleLogin = async (e) => {
     e.preventDefault();
-    localStorage.setItem("isLoggedIn", "true");
-    localStorage.setItem("userEmail", email);
+    setError("");
+    setLoading(true);
 
-    navigate("/");
+    try {
+      const response = await api.post("/auth/login", { email, password });
+      localStorage.setItem("isLoggedIn", "true");
+      localStorage.setItem("token", response.data.token);
+      localStorage.setItem("userEmail", response.data.user.email);
+      localStorage.setItem("userName", response.data.user.name || response.data.user.email);
+      window.location.href = "/";
+    } catch (err) {
+      setError(err.response?.data?.error?.message || "Login failed");
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
@@ -47,10 +61,13 @@ function Login() {
           required
         />
 
+        {error && <p className="text-red-400 text-sm mb-4">{error}</p>}
+
         <button
-          className="w-full bg-blue-600 hover:bg-blue-700 p-3 rounded-lg font-semibold"
+          className="w-full bg-blue-600 hover:bg-blue-700 p-3 rounded-lg font-semibold disabled:opacity-60"
+          disabled={loading}
         >
-          Login
+          {loading ? "Signing in..." : "Login"}
         </button>
       </form>
     </div>

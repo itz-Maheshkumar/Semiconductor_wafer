@@ -1,13 +1,21 @@
 # app/main.py
+import logging
+import os
+import sys
+
 from fastapi import FastAPI, Request
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.staticfiles import StaticFiles
 from fastapi.responses import JSONResponse
 from fastapi.exceptions import HTTPException as FastAPIHTTPException
-import logging
+
+BACKEND_ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+if BACKEND_ROOT not in sys.path:
+    sys.path.insert(0, BACKEND_ROOT)
 
 from app.db import create_db_and_tables
 from app.api.v1.auth import router as auth_router
+from app.seed_demo import seed_demo_data
 from app.api.v1.predictions import router as predictions_router
 from app.api.v1.feedback import router as feedback_router
 from app.api.v1.analytics import router as analytics_router
@@ -19,7 +27,12 @@ app = FastAPI(title="Wafer Defect Detection API", version="0.1.0")
 
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["http://localhost:3000"],
+    allow_origins=[
+        "http://localhost:3000",
+        "http://127.0.0.1:3000",
+        "http://localhost:5173",
+        "http://127.0.0.1:5173",
+    ],
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
@@ -36,6 +49,7 @@ app.mount("/media", StaticFiles(directory="app/media"), name="media")
 @app.on_event("startup")
 def on_startup():
     create_db_and_tables()
+    seed_demo_data()
 
 
 @app.exception_handler(FastAPIHTTPException)

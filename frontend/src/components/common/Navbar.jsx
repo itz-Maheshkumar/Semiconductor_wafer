@@ -3,16 +3,14 @@ import {
   Bell,
   Search,
   UserCircle,
-  Sun,
-  Moon,
 } from "lucide-react";
 import { useNavigate } from "react-router-dom";
+import { logout as logoutUser } from "../../services/authService";
 
 function Navbar() {
   const navigate = useNavigate();
 
-  const [theme, setTheme] = useState("dark");
-  const [showAlerts,setShowAlerts]=useState(false);
+  const [showAlerts, setShowAlerts] = useState(false);
   const [showProfile, setShowProfile] = useState(false);
   const [search, setSearch] = useState("");
 
@@ -31,27 +29,8 @@ function Navbar() {
   );
 
   const logout = () => {
-    localStorage.removeItem("isLoggedIn");
-    localStorage.removeItem("token");
-    localStorage.removeItem("userEmail");
-    localStorage.removeItem("userName");
+    logoutUser();
     navigate("/login");
-  };
-
-  const toggleTheme = () => {
-    if (theme === "dark") {
-      document.body.classList.remove("bg-slate-900");
-      document.body.classList.add("bg-white");
-      document.body.style.background = "#ffffff";
-      document.body.style.color = "#111";
-      setTheme("light");
-    } else {
-      document.body.classList.remove("bg-white");
-      document.body.classList.add("bg-slate-900");
-      document.body.style.background = "#0f172a";
-      document.body.style.color = "white";
-      setTheme("dark");
-    }
   };
 
   return (
@@ -95,11 +74,7 @@ function Navbar() {
           )}
         </div>
 
-        {/* THEME */}
-
-        <button onClick={toggleTheme}>
-          {theme === "dark" ? <Sun /> : <Moon />}
-        </button>
+        {/* THEME - DISABLED: Theme will be managed globally in future */}
 
         {/* ALERTS */}
 
@@ -107,14 +82,15 @@ function Navbar() {
 
           <button 
           onClick={() => setShowAlerts(!showAlerts)}
+          className="relative"
           >
 
             <div className="relative">
 
               <Bell className="cursor-pointer hover:text-blue-400" />
 
-              <span className="absolute -top-2 -right-2 bg-red-500 text-white text-xs rounded-full h-5 w-5 flex items-center justify-center">
-                3
+              <span className="absolute -top-2 -right-2 bg-slate-600 text-white text-xs rounded-full h-5 w-5 flex items-center justify-center">
+                0
               </span>
 
             </div>
@@ -128,17 +104,9 @@ function Navbar() {
                 Notifications
               </h3>
 
-              <div className="mb-3">
-                🔴 High defect rate detected
-              </div>
-
-              <div className="mb-3">
-                🟠 Accuracy dropped below 98%
-              </div>
-
-              <div>
-                🟢 Batch Completed
-              </div>
+              <p className="text-slate-400 text-sm">
+                No new alerts
+              </p>
 
             </div>
           )}
@@ -157,30 +125,34 @@ function Navbar() {
             <div className="absolute right-0 mt-3 w-64 bg-slate-800 rounded-lg shadow-lg p-4 z-50">
 
               <h3 className="font-bold text-lg">
-                Sathya Keerthi
+                {localStorage.getItem("userName") || "User"}
               </h3>
 
               <p className="text-sm text-slate-400">
-                AI Engineer
+                {localStorage.getItem("userEmail") || "user@example.com"}
               </p>
 
               <hr className="my-3 border-slate-600" />
 
-              <p>
-                <b>Email:</b>
-              </p>
+              <button
+                onClick={() => {
+                  navigate("/profile");
+                  setShowProfile(false);
+                }}
+                className="w-full text-left px-3 py-2 rounded hover:bg-slate-700 mb-2"
+              >
+                View Profile
+              </button>
 
-              <p className="text-sm mb-3">
-                {localStorage.getItem("userEmail")}
-              </p>
-
-              <p>
-                <b>Model</b>
-              </p>
-
-              <p className="mb-4">
-                CNN v2.0
-              </p>
+              <button
+                onClick={() => {
+                  navigate("/settings");
+                  setShowProfile(false);
+                }}
+                className="w-full text-left px-3 py-2 rounded hover:bg-slate-700 mb-2"
+              >
+                Settings
+              </button>
 
               <button
                 onClick={logout}

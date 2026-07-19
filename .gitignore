@@ -48,6 +48,21 @@ Thumbs.db
 .env.*
 !.env.example
 
+# Database files
+*.db
+*.sqlite
+*.sqlite3
+
+# Media uploads
+app/media/
+frontend/public/uploads/
+
+# ML models (large files)
+*.keras
+*.h5
+*.pb
+models/downloads/
+
 # Jupyter
 .ipynb_checkpoints/
 

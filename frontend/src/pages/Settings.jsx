@@ -1,4 +1,7 @@
+import { getSettings } from "../services/settingsService";
 function Settings() {
+  
+  const settings = getSettings();
   return (
     <div className="space-y-8">
       <div>
@@ -12,25 +15,37 @@ function Settings() {
 
         <div className="flex justify-between items-center">
           <span>Enable Notifications</span>
-          <input type="checkbox" defaultChecked />
+          <input
+            type="checkbox"
+          defaultChecked={settings.notifications}
+          />
         </div>
 
         <div className="flex justify-between items-center">
           <span>Dark Mode</span>
-          <input type="checkbox" defaultChecked />
+          <input
+            type="checkbox"
+            defaultChecked={settings.darkMode}
+          />
         </div>
 
         <div className="flex justify-between items-center">
           <span>Auto-save Reports</span>
-          <input type="checkbox" defaultChecked />
+          <input
+          type="checkbox"
+          defaultChecked={settings.autoSave}
+          />
         </div>
 
         <div>
           <label className="block mb-2">
             AI Model Version
           </label>
-
-          <select className="bg-slate-700 p-3 rounded-lg w-full">
+          <select
+          defaultValue={settings.model}
+          className="bg-slate-700 p-3 rounded-lg w-full"
+          >
+          
             <option>CNN v1.0</option>
             <option>CNN v2.0</option>
             <option>YOLOv8</option>

@@ -2,13 +2,14 @@ import KpiCard from "../components/dashboard/KpiCard";
 import DetectionTrend from "../components/dashboard/DetectionTrend";
 import DefectPieChart from "../components/dashboard/DefectPieChart";
 
-import {
-  dashboardStats,
-  detectionTrend,
-  defectDistribution,
-} from "../mock/dashboardData";
+import { getAnalytics } from "../services/analyticsService";
 
 function Analytics() {
+  const {
+    dashboardStats,
+    detectionTrend,
+    defectDistribution,
+  } = getAnalytics();
   return (
     <div className="space-y-8">
       <div>

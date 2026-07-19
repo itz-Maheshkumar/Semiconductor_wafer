@@ -1,4 +1,5 @@
-import { Routes, Route, Navigate } from "react-router-dom";
+import { Routes, Route } from "react-router-dom";
+import { useEffect, useState } from "react";
 
 import DashboardLayout from "../layouts/DashboardLayout";
 
@@ -9,21 +10,53 @@ import History from "../pages/History";
 import Analytics from "../pages/Analytics";
 import Alerts from "../pages/Alerts";
 import Settings from "../pages/Settings";
+import Login from "../pages/Login";
+import NotFound from "../pages/NotFound";
+
+import SplashScreen from "../components/common/SplashScreen";
+import ProtectedRoute from "../components/common/ProtectedRoute";
 
 function AppRoutes() {
+  const [loading, setLoading] = useState(
+  !sessionStorage.getItem("splashShown")
+);
+
+  useEffect(() => {
+    const splashShown = sessionStorage.getItem("splashShown");
+
+    if (splashShown) {
+      setLoading(false);
+    }
+  }, []);
+
+  if (loading) {
+    return (
+      <SplashScreen
+        onFinish={() => {
+          sessionStorage.setItem("splashShown", "true");
+          setLoading(false);
+        }}
+      />
+    );
+  }
+
   return (
     <Routes>
-      <Route element={<DashboardLayout />}>
-        <Route path="/" element={<Dashboard />} />
-        <Route path="/inspect" element={<Inspect />} />
-        <Route path="/batch" element={<Batch />} />
-        <Route path="/history" element={<History />} />
-        <Route path="/analytics" element={<Analytics />} />
-        <Route path="/alerts" element={<Alerts />} />
-        <Route path="/settings" element={<Settings />} />
+      <Route path="/login" element={<Login />} />
+
+      <Route element={<ProtectedRoute />}>
+        <Route element={<DashboardLayout />}>
+          <Route path="/" element={<Dashboard />} />
+          <Route path="/inspect" element={<Inspect />} />
+          <Route path="/batch" element={<Batch />} />
+          <Route path="/history" element={<History />} />
+          <Route path="/analytics" element={<Analytics />} />
+          <Route path="/alerts" element={<Alerts />} />
+          <Route path="/settings" element={<Settings />} />
+        </Route>
       </Route>
 
-      <Route path="*" element={<Navigate to="/" replace />} />
+      <Route path="*" element={<NotFound />} />
     </Routes>
   );
 }

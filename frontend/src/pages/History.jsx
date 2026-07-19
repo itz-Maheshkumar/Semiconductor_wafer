@@ -1,7 +1,7 @@
-import { historyData } from "../mock/historyData";
+import { getHistory } from "../services/historyService";
 
 function History() {
-  return (
+  const historyData = getHistory();return (
     <div className="space-y-8">
       <div>
         <h1 className="text-3xl font-bold">Inspection History</h1>

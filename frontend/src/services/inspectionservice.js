@@ -1,3 +1,3 @@
-import { dashboardStats } from "../mock/dashboardData";
+import { inspectionResult } from "../mock/inspectionData";
 
-export const getDashboardStats = () => dashboardStats;
+export const getInspectionResult = () => inspectionResult;

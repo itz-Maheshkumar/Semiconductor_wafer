@@ -1,7 +1,8 @@
 import { Upload } from "lucide-react";
-import { batchJobs } from "../mock/batchData";
+import { getBatchJobs } from "../services/batchService";
 
 function Batch() {
+  const batchJobs = getBatchJobs();
   return (
     <div className="space-y-8">
       <div>

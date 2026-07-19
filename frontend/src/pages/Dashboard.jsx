@@ -3,12 +3,15 @@ import DetectionTrend from "../components/dashboard/DetectionTrend";
 import DefectPieChart from "../components/dashboard/DefectPieChart";
 
 import {
-  dashboardStats,
-  detectionTrend,
-  defectDistribution,
-} from "../mock/dashboardData";
+  getDashboardStats,
+  getDetectionTrend,
+  getDefectDistribution,
+} from "../services/dashboardService";
 
 function Dashboard() {
+  const dashboardStats = getDashboardStats();
+  const detectionTrend = getDetectionTrend();
+  const defectDistribution = getDefectDistribution();
   return (
     <div className="space-y-8">
       <div>

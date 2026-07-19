@@ -1,3 +1,3 @@
-import { dashboardStats } from "../mock/dashboardData";
+import { historyData } from "../mock/historyData";
 
-export const getDashboardStats = () => dashboardStats;
+export const getHistory = () => historyData;

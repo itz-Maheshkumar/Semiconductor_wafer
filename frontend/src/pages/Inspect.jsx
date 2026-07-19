@@ -1,7 +1,6 @@
 import { useState } from "react";
 import { Upload, Image as ImageIcon } from "lucide-react";
-import { inspectionResult } from "../mock/inspectionData";
-
+import { getInspectionResult } from "../services/inspectionService";
 function Inspect() {
   const [image, setImage] = useState(null);
 
@@ -10,7 +9,7 @@ function Inspect() {
       setImage(URL.createObjectURL(e.target.files[0]));
     }
   };
-
+  const inspectionResult = getInspectionResult();
   return (
     <div className="space-y-8">
       <div>

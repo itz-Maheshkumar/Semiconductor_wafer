@@ -6,6 +6,7 @@ from app.db import create_db_and_tables
 from app.api.v1.auth import router as auth_router
 from app.api.v1.predictions import router as predictions_router
 from app.api.v1.feedback import router as feedback_router
+from app.api.v1.analytics import router as analytics_router
 import app.models  # noqa: F401
 
 app = FastAPI(title="Wafer Defect Detection API", version="0.1.0")
@@ -36,3 +37,8 @@ def root():
 app.include_router(auth_router)
 app.include_router(predictions_router)
 app.include_router(feedback_router)
+
+app.include_router(auth_router)
+app.include_router(predictions_router)
+app.include_router(feedback_router)
+app.include_router(analytics_router)

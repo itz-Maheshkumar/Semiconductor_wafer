@@ -1,7 +1,10 @@
+# app/main.py
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
+from fastapi.staticfiles import StaticFiles
 from app.db import create_db_and_tables
 from app.api.v1.auth import router as auth_router
+from app.api.v1.predictions import router as predictions_router
 import app.models  # noqa: F401
 
 app = FastAPI(title="Wafer Defect Detection API", version="0.1.0")
@@ -15,6 +18,9 @@ app.add_middleware(
 )
 
 app.include_router(auth_router)
+app.include_router(predictions_router)
+
+app.mount("/media", StaticFiles(directory="app/media"), name="media")
 
 
 @app.on_event("startup")

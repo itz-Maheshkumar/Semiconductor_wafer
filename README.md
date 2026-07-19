@@ -44,8 +44,8 @@ fine-tuning in this phase). Full scope breakdown: `docs/01_PROJECT_OVERVIEW.md`.
       loads) — confirms toolchain works end-to-end
 - [x] CORS enabled for frontend origin (`localhost:3000`)
 - [x] `.env.example` drafted (JWT secret, DB URL, model path placeholders)
-- [ ] DB models (`User`, `Prediction`, `Feedback`) — **next up**
-- [ ] `app.db` created + committed
+- [x] DB models (`User`, `Prediction`, `Feedback`) — SQLModel classes in `app/models/`, `db.py` engine/session setup
+- [x] `app.db` created + committed (tables verified: `user`, `prediction`, `feedback`)
 - [ ] Auth endpoints (`signup`, `login`, `me`) + JWT dependency
 - [ ] Model inference wrapper (`app/ml/inference.py`) — load model once at
       startup, `predict()` function, tested standalone
@@ -100,6 +100,7 @@ Full explanation: `docs/04_REPO_STRUCTURE.md`.
 
 ## Immediate Next Step
 
-Backend: implement `User`, `Prediction`, `Feedback` SQLModel classes and
-`app/db.py`, then wire up auth endpoints — this unblocks everything else,
-since every other route depends on the auth dependency.
+Backend: implement auth (`signup`, `login`, `me`) — password hashing with
+passlib/bcrypt, JWT issuing/decoding, `get_current_user` dependency. This
+unblocks every other route, since predictions/feedback/analytics all
+require an authenticated user.
